@@ -9,5 +9,4 @@ def mfp(m)
     1
   end
 end
-puts mfp(9999)
 
