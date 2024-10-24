@@ -1,0 +1,10 @@
+deploy-cookbook3:
+  stage: deploy
+  script:
+    - rsync -arv --delete  --exclude="*.sqlite3" ./cookbook3 /
+    - cd /cookbook3
+    - bundle install
+    - rails db:migrate
+    - sv restart cookbook3
+  only:
+    - cookbook3
