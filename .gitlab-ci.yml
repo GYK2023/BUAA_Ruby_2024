@@ -1,10 +1,10 @@
-deploy-cookbook3:
+deploy-blog4:
   stage: deploy
   script:
-    - rsync -arv --delete  --exclude="*.sqlite3" ./cookbook3 /
-    - cd /cookbook3
+    - rsync -arv --delete  --exclude="*.sqlite3" ./blog4 /
+    - cd /blog4
     - bundle install
     - rails db:migrate
-    - sv restart cookbook3
+    - sv restart blog4
   only:
-    - cookbook3
+    - blog4
