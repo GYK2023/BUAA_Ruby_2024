@@ -1,0 +1,208 @@
+  [1m[35m (4.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2024-10-23 14:20:16.744656', '2024-10-23 14:20:16.744659') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateBlogs (20241023142008)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "blogs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "content" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20241023142008') RETURNING "version"[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for ::1 at 2024-10-23 22:20:41 +0800
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /root/.rbenv/versions/3.3.4/lib/ruby/gems/3.3.0/gems/railties-7.2.1.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /root/.rbenv/versions/3.3.4/lib/ruby/gems/3.3.0/gems/railties-7.2.1.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.7ms | GC: 0.0ms)
+Completed 200 OK in 21ms (Views: 7.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/blogs" for ::1 at 2024-10-23 22:20:53 +0800
+Processing by BlogsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/index.html.erb within layouts/application
+  [1m[36mBlog Load (1.0ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs"[0m
+  ↳ app/views/blogs/index.html.erb:8
+  Rendered blogs/index.html.erb within layouts/application (Duration: 4.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 232.4ms | GC: 75.8ms)
+Completed 200 OK in 276ms (Views: 232.5ms | ActiveRecord: 1.0ms (1 query, 0 cached) | GC: 75.8ms)
+
+
+Started GET "/manifest.json" for ::1 at 2024-10-23 22:20:53 +0800
+Processing by Rails::PwaController#manifest as JSON
+  Rendering pwa/manifest.json.erb
+  Rendered pwa/manifest.json.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.8ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/blogs/new" for ::1 at 2024-10-23 22:21:20 +0800
+Processing by BlogsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/new.html.erb within layouts/application
+  Rendered blogs/_form.html.erb (Duration: 28.0ms | GC: 0.0ms)
+  Rendered blogs/new.html.erb within layouts/application (Duration: 28.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 30.4ms | GC: 0.0ms)
+Completed 200 OK in 40ms (Views: 31.1ms | ActiveRecord: 0.7ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/blogs" for ::1 at 2024-10-23 22:21:34 +0800
+Processing by BlogsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "blog"=>{"title"=>"blog1", "content"=>"这是一个blog测试"}, "commit"=>"Create Blog"}
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/blogs_controller.rb:27:in `block in create'
+  [1m[36mBlog Create (1.8ms)[0m  [1m[32mINSERT INTO "blogs" ("title", "content", "created_at", "updated_at") VALUES (?, ?, ?, ?) RETURNING "id"[0m  [["title", "blog1"], ["content", "这是一个blog测试"], ["created_at", "2024-10-23 14:21:34.330322"], ["updated_at", "2024-10-23 14:21:34.330322"]]
+  ↳ app/controllers/blogs_controller.rb:27:in `block in create'
+  [1m[36mTRANSACTION (4.8ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/blogs_controller.rb:27:in `block in create'
+Redirected to http://localhost:3000/blogs/1
+Completed 302 Found in 12ms (ActiveRecord: 6.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/blogs/1" for ::1 at 2024-10-23 22:21:34 +0800
+Processing by BlogsController#show as TURBO_STREAM
+  Parameters: {"id"=>"1"}
+  [1m[36mBlog Load (0.2ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/blogs_controller.rb:63:in `set_blog'
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/show.html.erb within layouts/application
+  Rendered blogs/_blog.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered blogs/show.html.erb within layouts/application (Duration: 2.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 4.0ms | GC: 0.0ms)
+Completed 200 OK in 9ms (Views: 4.3ms | ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/blogs" for ::1 at 2024-10-23 22:21:35 +0800
+Processing by BlogsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/index.html.erb within layouts/application
+  [1m[36mBlog Load (0.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs"[0m
+  ↳ app/views/blogs/index.html.erb:8
+  Rendered blogs/_blog.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered blogs/index.html.erb within layouts/application (Duration: 2.2ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.8ms | GC: 0.0ms)
+Completed 200 OK in 5ms (Views: 4.1ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/blogs/1" for ::1 at 2024-10-23 22:21:37 +0800
+Processing by BlogsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mBlog Load (0.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/blogs_controller.rb:63:in `set_blog'
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/show.html.erb within layouts/application
+  Rendered blogs/_blog.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered blogs/show.html.erb within layouts/application (Duration: 1.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.4ms | GC: 0.0ms)
+Completed 200 OK in 4ms (Views: 2.7ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/blogs/1/edit" for ::1 at 2024-10-23 22:21:39 +0800
+Processing by BlogsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mBlog Load (0.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/blogs_controller.rb:63:in `set_blog'
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/edit.html.erb within layouts/application
+  Rendered blogs/_form.html.erb (Duration: 1.1ms | GC: 0.0ms)
+  Rendered blogs/edit.html.erb within layouts/application (Duration: 1.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.6ms | GC: 0.0ms)
+Completed 200 OK in 5ms (Views: 3.8ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/blogs/1" for ::1 at 2024-10-23 22:21:42 +0800
+Processing by BlogsController#update as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "blog"=>{"title"=>"blog1", "content"=>"这是一个blog测试。"}, "commit"=>"Update Blog", "id"=>"1"}
+  [1m[36mBlog Load (0.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/blogs_controller.rb:63:in `set_blog'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/blogs_controller.rb:40:in `block in update'
+  [1m[36mBlog Update (0.8ms)[0m  [1m[33mUPDATE "blogs" SET "content" = ?, "updated_at" = ? WHERE "blogs"."id" = ?[0m  [["content", "这是一个blog测试。"], ["updated_at", "2024-10-23 14:21:42.614730"], ["id", 1]]
+  ↳ app/controllers/blogs_controller.rb:40:in `block in update'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/blogs_controller.rb:40:in `block in update'
+Redirected to http://localhost:3000/blogs/1
+Completed 302 Found in 6ms (ActiveRecord: 1.0ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/blogs/1" for ::1 at 2024-10-23 22:21:42 +0800
+Processing by BlogsController#show as TURBO_STREAM
+  Parameters: {"id"=>"1"}
+  [1m[36mBlog Load (0.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs" WHERE "blogs"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/blogs_controller.rb:63:in `set_blog'
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/show.html.erb within layouts/application
+  Rendered blogs/_blog.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered blogs/show.html.erb within layouts/application (Duration: 8.0ms | GC: 7.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 9.4ms | GC: 7.0ms)
+Completed 200 OK in 11ms (Views: 9.7ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 7.0ms)
+
+
+Started GET "/blogs" for ::1 at 2024-10-23 22:21:43 +0800
+Processing by BlogsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/index.html.erb within layouts/application
+  [1m[36mBlog Load (0.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs"[0m
+  ↳ app/views/blogs/index.html.erb:8
+  Rendered blogs/_blog.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered blogs/index.html.erb within layouts/application (Duration: 1.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.4ms | GC: 0.5ms)
+Completed 200 OK in 4ms (Views: 3.6ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.5ms)
+
+
+Started GET "/blogs" for ::1 at 2024-10-23 22:36:49 +0800
+Processing by BlogsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/index.html.erb within layouts/application
+  [1m[36mBlog Load (1.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs"[0m
+  ↳ app/views/blogs/index.html.erb:8
+  Rendered blogs/_blog.html.erb (Duration: 0.4ms | GC: 0.0ms)
+  Rendered blogs/index.html.erb within layouts/application (Duration: 11.0ms | GC: 0.7ms)
+  Rendered layout layouts/application.html.erb (Duration: 25.5ms | GC: 2.9ms)
+Completed 200 OK in 30ms (Views: 26.2ms | ActiveRecord: 1.1ms (1 query, 0 cached) | GC: 2.9ms)
+
+
+Started GET "/manifest.json" for ::1 at 2024-10-23 22:36:49 +0800
+Processing by Rails::PwaController#manifest as JSON
+  Rendering pwa/manifest.json.erb
+  Rendered pwa/manifest.json.erb (Duration: 0.4ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2024-10-23 22:36:52 +0800
+Processing by BlogsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/index.html.erb within layouts/application
+  [1m[36mBlog Load (0.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs"[0m
+  ↳ app/views/blogs/index.html.erb:8
+  Rendered blogs/_blog.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered blogs/index.html.erb within layouts/application (Duration: 1.8ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.1ms | GC: 0.0ms)
+Completed 200 OK in 4ms (Views: 3.4ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/manifest.json" for ::1 at 2024-10-23 22:36:52 +0800
+Processing by Rails::PwaController#manifest as JSON
+  Rendering pwa/manifest.json.erb
+  Rendered pwa/manifest.json.erb (Duration: 0.1ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.4ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2024-10-23 22:36:54 +0800
+Processing by BlogsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering blogs/index.html.erb within layouts/application
+  [1m[36mBlog Load (0.1ms)[0m  [1m[34mSELECT "blogs".* FROM "blogs"[0m
+  ↳ app/views/blogs/index.html.erb:8
+  Rendered blogs/_blog.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered blogs/index.html.erb within layouts/application (Duration: 1.8ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.0ms | GC: 0.0ms)
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/manifest.json" for ::1 at 2024-10-23 22:36:54 +0800
+Processing by Rails::PwaController#manifest as JSON
+  Rendering pwa/manifest.json.erb
+  Rendered pwa/manifest.json.erb (Duration: 0.1ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 0.4ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
