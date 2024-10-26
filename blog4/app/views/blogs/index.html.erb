@@ -1,0 +1,23 @@
+<h1>All Blogs</h1>
+
+<% @blogs.each do |blog| %>
+  <div class="blog-post">
+    <%= render blog %>
+    
+    <% if logged_in? %>
+      <p><%= link_to "Show this blog", user_blog_path(current_user, blog) %></p>
+    <% else %>
+      <p><%= link_to "Show this blog", login_path %></p>
+    <% end %>
+    <hr>
+  </div>
+<% end %>
+<% if logged_in? %>
+  <%= link_to "New blog", new_user_blog_path(current_user.username) %>
+  <%= link_to "LogOut", logout_path, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+<% else %>
+  <%= link_to "LogIn", login_path%>
+<% end %>
+
+
+
