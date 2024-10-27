@@ -1,11 +1,13 @@
 class DropAllTables < ActiveRecord::Migration[7.2]
   def up
-    tables = ActiveRecord::Base.connection.tables
-    tables.each do |table|
-      drop_table table, force: :cascade
-    end
+    drop_table :blogs
   end
-
+  
   def down
+    create_table :blogs do |t|
+      t.string :title
+      t.text :content
+      t.timestamps
+    end
   end
 end
