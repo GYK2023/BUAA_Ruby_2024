@@ -6,7 +6,7 @@ class BlogsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get blogs_url
+    get user_blogs_path(users(:one))
     assert_response :success
   end
 
