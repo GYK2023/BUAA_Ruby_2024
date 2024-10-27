@@ -24,7 +24,7 @@ class BlogsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show blog" do
-    get blog_url(@blog)
+    get user_blog_path(users(:one), @blog)
     assert_response :success
   end
 
@@ -40,7 +40,7 @@ class BlogsControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy blog" do
     assert_difference("Blog.count", -1) do
-      delete blog_url(@blog)
+      delete user_blog_path(users(:one), @blog)
     end
 
     assert_redirected_to blogs_url
