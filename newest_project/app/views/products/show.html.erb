@@ -1,0 +1,159 @@
+<div class="container">
+  <div class="product-detail">
+    <div class="product-image">
+      <% if @product.image.attached? %>
+        <%= image_tag @product.image, class: "img-fluid product-image-img" %>
+      <% else %>
+        <img src="default-image.jpg" alt="No image" class="img-fluid product-image-img">
+      <% end %>
+    </div>
+
+    <div class="product-info">
+      <h2 class="product-title"><%= @product.name %></h2>
+      <p class="price">￥<%= @product.price %></p>
+      <p class="description"><strong>Description:</strong> <%= @product.description %></p>
+      <p><strong>Stock:</strong> <%= @product.stock %></p>
+      <p><strong>Sales:</strong> <%= @product.sales %></p>
+      
+      <!-- Actions -->
+      <div class="product-actions">
+        
+        <% if current_user.is_admin? %>
+            <%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-primary" %>
+            <%= button_to 'Delete Product', product_path(@product), method: :delete, data: { confirm: 'Are you sure you want to delete this product?' }, class: "btn btn-danger" %>
+        <% else %>
+            
+        <% end %>
+
+        
+        <%= link_to 'Back to Products', products_path, class: "btn btn-secondary" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 嵌入CSS样式 -->
+<style>
+  .container {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center; /* 让内容居中 */
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .product-detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center; /* 居中产品内容 */
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px; /* 限制最大宽度 */
+  }
+
+  /* 产品图片的样式，增加图片的最大宽度 */
+  .product-image-img {
+    max-width: 450px; /* 增加图片的最大宽度 */
+    height: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-info {
+    flex: 1;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center; /* 文本居中 */
+  }
+
+  /* 产品标题 */
+  .product-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  /* 产品价格 */
+  .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 15px;
+  }
+
+  /* 产品描述 */
+  .description {
+    font-size: 1rem;
+    color: #7f8c8d;
+    margin-bottom: 15px;
+  }
+
+  /* 按钮样式 */
+  .product-actions {
+    display: flex;
+    justify-content: center; /* 按钮居中 */
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .product-actions .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background-color: #3498db;
+    color: white;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #2980b9;
+  }
+
+  .btn-danger {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+  }
+
+  .btn-danger:hover {
+    background-color: #c0392b;
+  }
+
+  .btn-secondary {
+    background-color: #bdc3c7;
+    color: white;
+    border: none;
+  }
+
+  .btn-secondary:hover {
+    background-color: #95a5a6;
+  }
+
+  /* 确保响应式布局 */
+  @media (max-width: 768px) {
+    .product-detail {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .product-info {
+      max-width: 100%;
+      padding: 15px;
+    }
+
+    .product-image-img {
+      max-width: 350px; /* 调整图片在小屏幕下的大小 */
+    }
+  }
+</style>

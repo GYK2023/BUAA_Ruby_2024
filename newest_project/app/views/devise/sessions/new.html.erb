@@ -1,0 +1,177 @@
+<!-- app/views/devise/sessions/new.html.erb -->
+<div class="login-page">
+  <div class="login-container">
+    <h2>欢迎回来</h2>
+    <p class="subtitle">请登录您的账号</p>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form" }) do |f| %>
+      <div class="form-group">
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <%= f.text_field :username, autofocus: true, class: "form-control", placeholder: "请输入用户名" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <%= f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "请输入密码" %>
+        </div>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="form-group remember-me">
+          <%= f.check_box :remember_me, class: "custom-checkbox" %>
+          <%= f.label :remember_me, "记住我", class: "checkbox-label" %>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.submit "登录", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+
+    <div class="links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Open Sans', sans-serif;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px;
+  padding: 40px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #7f8c8d;
+  margin: 10px 0 30px;
+  font-size: 14px;
+}
+
+.login-form {
+  margin-top: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-group i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #95a5a6;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.checkbox-label {
+  color: #7f8c8d;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2980b9, #2573a7);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(52,152,219,0.3);
+}
+
+.links {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.links a {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 14px;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: #2980b9;
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 30px 20px;
+    margin: 15px;
+  }
+}
+</style>

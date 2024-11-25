@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Newest Project" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <style>
+      .nav-bar {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-brand {
+        font-size: 1.25rem;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #666;
+        padding: 0.5rem;
+      }
+
+      .nav-links a:hover {
+        color: #333;
+      }
+
+      .main-content {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .notice, .alert {
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 4px;
+      }
+
+      .notice {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .alert {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="nav-bar">
+      <div class="nav-container">
+        <%= link_to "MAN!", root_path, class: "nav-brand" %>
+        <div class="nav-links">
+          <% if current_user %>
+            <%= link_to "修改密码", edit_registration_path(:user) %>
+            <%= link_to "登出", destroy_user_session_path, data: { turbo_method: :delete } %>
+          <% else %>
+            <%= link_to "登录", new_session_path(:user) %>
+            <%= link_to "注册", new_registration_path(:user) %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <% if notice %>
+        <div class="notice"><%= notice %></div>
+      <% end %>
+      
+      <% if alert %>
+        <div class="alert"><%= alert %></div>
+      <% end %>
+
+      <%= yield %>
+    </div>
+  </body>
+</html>

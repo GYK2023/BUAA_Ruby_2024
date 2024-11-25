@@ -1,0 +1,100 @@
+<div class="container my-5">
+  <h1 class="text-center mb-4">我的地址</h1>
+
+  <!-- 显示当前用户的所有地址 -->
+  <% if @addresses.any? %>
+    <div class="address-list">
+      <% @addresses.each do |address| %>
+        <div class="address-card card mb-3">
+          <div class="card-body">
+            <h5 class="card-title"><%= address.name %> (手机号: <%= address.phone_num %>)</h5>
+            <p class="card-text"><%= address.address %></p>
+            <p class="card-text">
+              <%= address.default ? "默认地址" : "非默认地址" %>
+            </p>
+            <div class="address-actions">
+              <%= link_to '编辑', edit_address_path(address), class: "btn btn-primary btn-sm" %>
+              <%= link_to '删除', address_path(address), method: :delete, data: { confirm: "确认删除这个地址吗？" }, class: "btn btn-danger btn-sm" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-center">您还没有添加任何地址。</p>
+  <% end %>
+
+  <div class="text-center">
+    <%= link_to '添加新地址', new_address_path, class: "btn btn-success btn-lg" %>
+  </div>
+</div>
+
+
+<style>
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+
+.address-card {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+
+.card-body {
+  padding: 20px;
+  text-align: left;
+}
+
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+
+.card-text {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+
+.card-text.default {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+
+.address-actions .btn {
+  margin: 5px;
+  font-size: 0.9rem;
+}
+
+
+.btn-lg {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  .address-card {
+    margin-bottom: 20px;
+  }
+}
+
+</style>

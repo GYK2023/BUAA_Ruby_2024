@@ -1,0 +1,37 @@
+<div class="container my-5">
+  <h1 class="text-center mb-4">编辑地址</h1>
+
+  <%= form_with model: @address, local: true, class: "address-form" do |form| %>
+    <div class="card">
+      <div class="card-body">
+        <div class="mb-3">
+          <%= form.label :name, "姓名", class: "form-label" %>
+          <%= form.text_field :name, class: "form-control", required: true %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :phone_num, "手机号码", class: "form-label" %>
+          <%= form.text_field :phone_num, class: "form-control", required: true %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :address, "详细地址", class: "form-label" %>
+          <%= form.text_area :address, class: "form-control", required: true, rows: 4 %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.check_box :default %>
+          <%= form.label :default, "设为默认地址", class: "form-label" %>
+        </div>
+
+        <div class="text-center">
+          <%= form.submit '更新', class: "btn btn-success btn-lg" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="text-center mt-4">
+    <%= link_to '返回地址列表', addresses_path, class: "btn btn-secondary btn-lg" %>
+  </div>
+</div>
