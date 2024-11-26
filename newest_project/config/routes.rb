@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   resources :products
+  # resources :products, only: [:index, :show]
   resources :addresses, only: [:new, :create, :edit, :update, :destroy, :index]
+  resource :cart, only: [:show]
+  resources :cart_items, only: [:create, :destroy] do
+    patch :update_quantity, on: :member 
+  end
+  
   devise_for :users
   # get "home/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

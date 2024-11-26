@@ -1,4 +1,5 @@
 class Product < ApplicationRecord
+    has_many :cart_items, dependent: :destroy
     has_one_attached :image
     validates :image, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
     # 验证字段有效性

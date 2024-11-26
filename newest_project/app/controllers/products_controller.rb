@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   # 在执行某些操作前，找到对应的产品
+  before_action :authenticate_user!
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-
   # GET /products
   # 展示所有产品
   def index

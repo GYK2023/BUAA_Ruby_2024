@@ -1,7 +1,9 @@
+<!-- 首先在<head>标签中添加Font Awesome的CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <div class="container">
   <h1 class="text-center mb-4">所有产品</h1>
 
-  <!-- 新增产品的按钮 -->
   <% if current_user.is_admin? %>
      <div class="mb-4 text-center">
         <%= link_to '新增产品', new_product_path, class: "btn btn-success btn-lg" %>
@@ -27,31 +29,35 @@
           </div>
         <% end %>
 
-        <div class="product-actions text-center">
-          <%= link_to '查看产品', product_path(product), class: "btn btn-primary btn-sm m-1" %>
-          <%= link_to '加入购物车', "#", class: "btn btn-success btn-sm m-1" %>
-          <%= link_to '收藏', "#", class: "btn btn-danger btn-sm m-1" %>
+        <div class="product-actions">
+          <%= link_to '查看详情', product_path(product), class: "action-btn view-btn" %>
+          <div class="icon-buttons">
+            <%= button_to cart_items_path(current_cart, product_id: product.id), 
+                method: :post, 
+                class: "icon-btn cart-icon-btn" do %>
+              <i class="fas fa-shopping-cart"></i>
+            <% end %>
+            <%= link_to "#", class: "icon-btn heart-icon-btn" do %>
+              <i class="fas fa-heart"></i>
+            <% end %>
+          </div>
         </div>
       </div>
     <% end %>
   </div>
 </div>
 
-<!-- 嵌入CSS样式 -->
 <style>
-  /* 让页面整体居中，保持良好的边距 */
   .container {
     margin-top: 40px;
   }
 
-  /* 使标题居中 */
   h1 {
     font-size: 2.5rem;
     font-weight: bold;
     color: #333;
   }
 
-  /* 增加产品网格的间距，保持适当的响应式布局 */
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -59,7 +65,6 @@
     padding: 20px;
   }
 
-  /* 产品卡片的样式 */
   .product-card {
     background-color: #fff;
     border-radius: 10px;
@@ -68,13 +73,11 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  /* 产品卡片 hover 效果 */
   .product-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
   }
 
-  /* 产品图片的样式 */
   .product-image-img {
     width: 100%;
     height: 250px;
@@ -82,7 +85,6 @@
     border-bottom: 1px solid #f0f0f0;
   }
 
-  /* 产品详细信息 */
   .product-details {
     padding: 15px;
     text-align: center;
@@ -106,46 +108,82 @@
     color: #7f8c8d;
   }
 
-  /* 产品卡片下方的按钮 */
   .product-actions {
     padding: 15px;
     background-color: #f9f9f9;
     border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .product-actions .btn {
-    width: 100%;
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 1rem;
-    
+  .action-btn {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
   }
 
-  .product-actions .btn-primary {
+  .view-btn {
+    background-color: #e8f4ff;
+    color: #3498db;
+    border: 1px solid #3498db;
+    flex-grow: 0;
+  }
+
+  .view-btn:hover {
     background-color: #3498db;
-    color: #fff;
+    color: white;
+    text-decoration: none;
   }
 
-  .product-actions .btn-success {
+  .icon-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .cart-icon-btn {
     background-color: #2ecc71;
-    color: #fff;
+    color: white;
   }
 
-  .product-actions .btn-danger {
+  .cart-icon-btn:hover {
+    background-color: #27ae60;
+    transform: scale(1.1);
+  }
+
+  .heart-icon-btn {
+    background-color: #ffe8e8;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+  }
+
+  .heart-icon-btn:hover {
     background-color: #e74c3c;
-    color: #fff;
+    color: white;
+    transform: scale(1.1);
   }
 
-  .product-actions .btn:hover {
-    opacity: 0.8;
-  }
-
-  /* 增加“新增产品”按钮的样式 */
   .btn-success {
     background-color: #28a745;
     color: white;
-    font-size: 1.2rem; /* 增大字体 */
+    font-size: 1.2rem; 
     padding: 12px 20px;
     border-radius: 5px;
     text-transform: uppercase;
@@ -154,5 +192,22 @@
 
   .btn-success:hover {
     background-color: #218838;
+  }
+
+  /* 响应式调整 */
+  @media (max-width: 350px) {
+    .product-actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .view-btn {
+      width: 100%;
+    }
+    
+    .icon-buttons {
+      width: 100%;
+      justify-content: center;
+    }
   }
 </style>

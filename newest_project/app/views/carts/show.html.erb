@@ -1,0 +1,278 @@
+<div class="container">
+  <h1 class="text-center mb-4">我的购物车</h1>
+
+  <% if @cart_items.any? %>
+    <div class="cart-table">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>商品图片</th>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>小计</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @cart_items.each do |item| %>
+            <tr class="cart-item">
+              <td class="product-image">
+                <% if item.product.image.attached? %>
+                  <%= image_tag item.product.image, class: "product-img" %>
+                <% else %>
+                  <img src="default-image.jpg" alt="No image" class="product-img">
+                <% end %>
+              </td>
+              <td class="product-name"><%= item.product.name %></td>
+              <td class="product-price">￥<%= item.product.price %></td>
+              <td>
+                <%= form_with url: update_quantity_cart_item_path(item), method: :patch, local: true do |f| %>
+                  <div class="input-group">
+                    <button type="submit" name="cart_item[quantity]" value="<%= item.quantity - 1 %>" class="btn btn-danger">-</button>
+                    <input type="text" class="form-control" value="<%= item.quantity %>" disabled />
+                    <button type="submit" name="cart_item[quantity]" value="<%= item.quantity + 1 %>" class="btn btn-success">+</button>
+                  </div>
+                <% end %>
+              </td>
+              <td class="product-subtotal">￥<%= item.quantity * item.product.price %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="cart-summary">
+        <div class="total-amount">
+          总计: <span class="price">￥<%= @cart.total_price %></span>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="empty-cart">
+      <p>购物车是空的</p>
+      <%= link_to '去购物', products_path, class: 'shop-now-btn' %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .cart-table {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .table th,
+  .table td {
+    padding: 1.5rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .table th {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+
+  /* 调整每列的对齐方式 */
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    text-align: center;
+    width: 120px;
+  }
+
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    text-align: left;
+  }
+
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    text-align: center;
+    width: 120px;
+  }
+
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    text-align: center;
+    width: 150px;
+  }
+
+  .table th:nth-child(5),
+  .table td:nth-child(5) {
+    text-align: center;
+    width: 120px;
+  }
+
+  .product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  .product-name {
+    color: #1e293b;
+    font-weight: 500;
+  }
+
+  .product-price,
+  .product-subtotal {
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+  }
+
+  .btn-danger {
+    background-color: #fee2e2;
+    color: #ef4444;
+  }
+
+  .btn-success {
+    background-color: #dcfce7;
+    color: #22c55e;
+  }
+
+  .btn:hover {
+    opacity: 0.8;
+  }
+
+  .form-control {
+    width: 50px;
+    height: 32px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 0.9rem;
+    color: #1e293b;
+  }
+
+  .cart-summary {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .total-amount {
+    font-size: 1.2rem;
+    color: #1e293b;
+    font-weight: 500;
+  }
+
+  .total-amount .price {
+    color: #ef4444;
+    font-weight: 600;
+    margin-left: 8px;
+  }
+
+  .empty-cart {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #f8fafc;
+    border-radius: 12px;
+  }
+
+  .empty-cart p {
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .shop-now-btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background-color: #3b82f6;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+
+  .shop-now-btn:hover {
+    background-color: #2563eb;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 10px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    .table th,
+    .table td {
+      padding: 1rem 0.5rem;
+    }
+
+    .table th:nth-child(1),
+    .table td:nth-child(1) {
+      width: 100px;
+    }
+
+    .product-img {
+      width: 60px;
+      height: 60px;
+    }
+
+    .btn {
+      width: 28px;
+      height: 28px;
+      font-size: 1rem;
+    }
+
+    .form-control {
+      width: 40px;
+      height: 28px;
+    }
+  }
+</style>
