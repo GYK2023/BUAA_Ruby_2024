@@ -44,6 +44,9 @@
         <div class="total-amount">
           总计: <span class="price">￥<%= @cart.total_price %></span>
         </div>
+        <div class="checkout-button">
+          <%= link_to '结算', new_order_path, class: 'btn btn-primary' %>
+        </div>       
       </div>
     </div>
   <% else %>

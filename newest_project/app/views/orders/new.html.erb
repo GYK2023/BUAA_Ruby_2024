@@ -1,0 +1,296 @@
+<div class="checkout-container">
+  <h1>填写订单信息</h1>
+
+  <div class="checkout-content">
+    <div class="cart-summary">
+      <div class="section-title">
+        <i class="fas fa-shopping-cart"></i>
+        <h3>当前订单商品</h3>
+      </div>
+
+      <div class="cart-items">
+        <% @cart_items.each do |item| %>
+          <div class="cart-item">
+            <div class="item-info">
+              <div class="item-name"><%= item.product.name %></div>
+              <div class="item-price">￥<%= item.product.price %></div>
+            </div>
+            <div class="item-quantity">
+              <span class="quantity-label">数量:</span>
+              <span class="quantity-value"><%= item.quantity %></span>
+            </div>
+            <div class="item-subtotal">
+              <span class="subtotal-label">小计:</span>
+              <span class="subtotal-value">￥<%= item.product.price * item.quantity %></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="cart-total">
+        <span>总计</span>
+        <span class="total-amount">￥<%= @cart_items.sum { |item| item.product.price * item.quantity } %></span>
+      </div>
+    </div>
+
+    <div class="shipping-info">
+      <div class="section-title">
+        <i class="fas fa-shipping-fast"></i>
+        <h3>收货信息</h3>
+      </div>
+
+      <%= form_with model: @order, url: orders_path, method: :post, local: true, class: "shipping-form" do |f| %>
+        <div class="form-group">
+          <%= f.label :user_address_id, "选择收货地址" %>
+          <%= f.select :user_address_id, 
+              options_for_select(@user_addresses.map { |a| ["#{a.name} (#{a.phone_num}) - #{a.address}", a.id] }, 
+              selected: @selected_address_id), 
+              { prompt: "请选择地址" }, 
+              { class: "address-select" } %>
+        </div>
+
+
+        <div class="form-submit">
+          <%= f.submit "确认订单", class: "submit-btn" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<style>
+.checkout-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.checkout-container h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 3rem;
+  font-weight: 600;
+  position: relative;
+}
+
+.checkout-container h1:after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #3498db;
+  margin: 1rem auto;
+  border-radius: 2px;
+}
+
+.checkout-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-title i {
+  font-size: 1.5rem;
+  color: #3498db;
+}
+
+.section-title h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #2c3e50;
+}
+
+.cart-summary {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+}
+
+.cart-item:hover {
+  transform: translateX(5px);
+}
+
+.item-info {
+  flex: 2;
+}
+
+.item-name {
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 0.3rem;
+}
+
+.item-price {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.item-quantity {
+  flex: 1;
+  text-align: center;
+}
+
+.item-subtotal {
+  flex: 1;
+  text-align: right;
+}
+
+.quantity-label, .subtotal-label {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+}
+
+.subtotal-value {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 2px dashed #eee;
+  font-size: 1.2rem;
+}
+
+.total-amount {
+  color: #e74c3c;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.shipping-info {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+
+.shipping-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.address-select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #2c3e50;
+  transition: border-color 0.3s ease;
+}
+
+.address-select:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.selected-address {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.address-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.detail-item i {
+  color: #3498db;
+  width: 20px;
+}
+
+.no-address {
+  color: #95a5a6;
+  text-align: center;
+  font-style: italic;
+}
+
+.form-submit {
+  margin-top: 2rem;
+  text-align: right;
+}
+
+.submit-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #27ae60;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+@media (max-width: 768px) {
+  .checkout-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .checkout-container {
+    padding: 1rem;
+  }
+  
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .item-quantity, .item-subtotal {
+    width: 100%;
+    text-align: left;
+  }
+}
+</style>

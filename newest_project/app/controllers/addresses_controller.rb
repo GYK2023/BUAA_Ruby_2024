@@ -36,6 +36,13 @@ class AddressesController < ApplicationController
       @address.destroy
       redirect_to addresses_path, notice: '地址已删除'
     end
+
+    def details
+      address = current_user.addresses.find(params[:id])
+      render json: { success: true, name: address.name, phone_num: address.phone_num, address: address.address }
+      rescue ActiveRecord::RecordNotFound
+      render json: { success: false, message: "地址未找到" }, status: :not_found
+    end
   
     private
   

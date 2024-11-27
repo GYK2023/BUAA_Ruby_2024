@@ -1,12 +1,22 @@
 Rails.application.routes.draw do
   resources :products
   # resources :products, only: [:index, :show]
-  resources :addresses, only: [:new, :create, :edit, :update, :destroy, :index]
-  resource :cart, only: [:show]
+  resources :addresses, only: [:new, :create, :edit, :update, :destroy, :index] do
+    member do
+      get :details
+    end
+  end
+  resource :cart, only: [:show] do
+    post "checkout", to: "carts#checkout", as: :checkout
+  end
   resources :cart_items, only: [:create, :destroy] do
     patch :update_quantity, on: :member 
   end
-  
+  resources :orders, only: [:new, :create, :show, :index] do
+    member do
+      get "payment"
+    end
+  end
   devise_for :users
   # get "home/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

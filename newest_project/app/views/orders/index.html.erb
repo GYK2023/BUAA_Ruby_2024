@@ -1,0 +1,268 @@
+<div class="orders-container">
+  <h1>我的订单</h1>
+  
+  <div class="orders-list">
+    <% @orders.each do |order| %>
+      <div class="order-card">
+        <div class="order-header">
+          <div class="order-num">
+            <span class="label">订单编号</span>
+            <span class="value">#<%= order.id %></span>
+          </div>
+          <span class="status-badge <%= order.status.downcase %>">
+            <%= order.status %>
+          </span>
+        </div>
+
+        <div class="order-info">
+          <div class="order-detail">
+            <i class="far fa-clock"></i>
+            <div>
+              <span class="label">下单时间</span>
+              <span class="value"><%= order.created_at.in_time_zone("Beijing").strftime("%Y-%m-%d %H:%M:%S") %></span>
+            </div>
+          </div>
+
+          <div class="order-detail">
+            <i class="fas fa-yen-sign"></i>
+            <div>
+              <span class="label">总金额</span>
+              <span class="value price">￥<%= order.total_price %></span>
+            </div>
+          </div>
+
+          <div class="order-detail products">
+            <i class="fas fa-shopping-bag"></i>
+            <div>
+              <span class="label">商品列表</span>
+              <div class="product-list">
+                <% order.order_items.each do |item| %>
+                  <span class="product-tag"><%= item.product.name %></span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-footer">
+          <%= link_to order_path(order), class: 'view-btn' do %>
+            查看详情
+            <i class="fas fa-chevron-right"></i>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+.orders-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.orders-container h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 3rem;
+  font-weight: 600;
+  font-size: 2.2rem;
+  position: relative;
+}
+
+.orders-container h1:after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #3498db;
+  margin: 1rem auto;
+  border-radius: 2px;
+}
+
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 2rem;
+}
+
+.order-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.order-num .label {
+  display: block;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.3rem;
+}
+
+.order-num .value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.status-badge.pending {
+  background: rgba(241, 196, 15, 0.2);
+  color: #b7950b;
+}
+
+.status-badge.completed {
+  background: rgba(46, 204, 113, 0.2);
+  color: #27ae60;
+}
+
+.status-badge.cancelled {
+  background: rgba(231, 76, 60, 0.2);
+  color: #c0392b;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.order-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.order-detail i {
+  color: #3498db;
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+  margin-top: 3px;
+}
+
+.order-detail .label {
+  display: block;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.4rem;
+}
+
+.order-detail .value {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.order-detail .price {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+.product-tag {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: #f0f4f8;
+  color: #3498db;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.product-tag:hover {
+  background: #e1e8ef;
+  transform: translateY(-2px);
+}
+
+.order-footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  text-align: right;
+}
+
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background: #3498db;
+  color: white;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.view-btn:hover {
+  background: #2980b9;
+  transform: translateX(5px);
+}
+
+.view-btn i {
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+}
+
+.view-btn:hover i {
+  transform: translateX(3px);
+}
+
+@media (max-width: 768px) {
+  .orders-container {
+    padding: 1rem;
+  }
+  
+  .orders-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .order-card {
+    padding: 1rem;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .status-badge {
+    align-self: flex-start;
+  }
+  
+  .product-list {
+    margin-top: 0.5rem;
+  }
+}
+</style>
