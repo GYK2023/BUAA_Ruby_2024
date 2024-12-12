@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  resources :products
+  get "favorites/create"
+  get "favorites/destroy"
+  resources :products do
+    member do
+      patch :down
+      patch :up
+    end
+  end
   # resources :products, only: [:index, :show]
   resources :addresses, only: [:new, :create, :edit, :update, :destroy, :index] do
     member do
@@ -12,11 +19,13 @@ Rails.application.routes.draw do
   resources :cart_items, only: [:create, :destroy] do
     patch :update_quantity, on: :member 
   end
-  resources :orders, only: [:new, :create, :show, :index] do
+  resources :orders, only: [:new, :create, :show, :index, :destroy] do
     member do
       get "payment"
+      patch :update_status
     end
   end
+  resources :favorites, only: [:index, :create, :destroy]
   devise_for :users
   # get "home/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

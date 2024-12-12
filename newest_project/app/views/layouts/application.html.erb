@@ -208,20 +208,26 @@
               <i class="fas fa-store"></i>所有商品
             <% end %>
             
-            <%= link_to cart_path, class: "nav-item" do %>
-              <i class="fas fa-shopping-cart"></i>购物车
-            <% end %>
-            
-            <%= link_to products_path, class: "nav-item" do %>
-              <i class="fas fa-heart"></i>收藏夹
-            <% end %>
-            
-            <%= link_to addresses_path, class: "nav-item" do %>
-              <i class="fas fa-map-marker-alt"></i>地址管理
-            <% end %>
-            
-            <%= link_to orders_path, class: "nav-item" do %>
-              <i class="fas fa-clipboard-list"></i>我的订单
+            <% if current_user && current_user.is_admin? %>
+              <%= link_to orders_path, class: "nav-item" do %>
+                <i class="fas fa-clipboard-list"></i>订单管理
+              <% end %>
+            <% else %>
+              <%= link_to cart_path, class: "nav-item" do %>
+                <i class="fas fa-shopping-cart"></i>购物车
+              <% end %>
+              
+              <%= link_to favorites_path, class: "nav-item" do %>
+                <i class="fas fa-heart"></i>收藏夹
+              <% end %>
+              
+              <%= link_to addresses_path, class: "nav-item" do %>
+                <i class="fas fa-map-marker-alt"></i>地址管理
+              <% end %>
+              
+              <%= link_to orders_path, class: "nav-item" do %>
+                <i class="fas fa-clipboard-list"></i>我的订单
+              <% end %>
             <% end %>
           </div>
         </div>
@@ -245,7 +251,6 @@
         </div>
       </div>
     </nav>
-
     <div class="main-content">
       <% if notice %>
         <div class="notice">

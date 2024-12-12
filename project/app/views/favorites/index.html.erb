@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+  :root {
+  --primary-color: #4a90e2;
+  --secondary-color: #34495e;
+  --success-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --light-gray: #f5f6fa;
+  --border-radius: 12px;
+  --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+}
+    .favorites-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 40px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      position: relative;
+    }
+
+    h1:after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: #3498db;
+      margin: 15px auto;
+    }
+
+    .favorites-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .favorite-item {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .favorite-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 250px; /* 固定高度 */
+      overflow: hidden;
+    }
+
+    .product-image a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .product-image-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* 保持图片比例并填充容器 */
+    }
+
+    .product-info {
+      padding: 20px;
+      flex-grow: 1;
+    }
+
+    .product-info h3 {
+      margin: 0 0 15px 0;
+      font-size: 1.2em;
+    }
+
+    .product-info h3 a {
+      color: #2c3e50;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .product-info h3 a:hover {
+      color: #3498db;
+    }
+
+    .product-info p {
+      margin: 10px 0;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .actions {
+      padding: 15px 20px;
+      background: #f8f9fa;
+      border-top: 1px solid #eee;
+    }
+
+    .btn-danger {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: #e74c3c;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-danger:hover {
+      background: #c0392b;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-size: 1.1em;
+    }
+
+    .empty-message a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .empty-message a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .favorites-list {
+        grid-template-columns: 1fr;
+      }
+
+      .favorites-container {
+        padding: 15px;
+      }
+    }
+    .empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.cart-icon {
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.empty-cart h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.empty-cart p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.shop-now-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  background-color: #6c5ce7;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.shop-now-btn:hover {
+  background-color: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 480px) {
+  .empty-cart {
+    margin: 10px;
+    padding: 30px 15px;
+  }
+
+  .empty-cart h2 {
+    font-size: 20px;
+  }
+
+  .empty-cart p {
+    font-size: 14px;
+  }
+
+  .shop-now-btn {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+}
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+  </style>
+  <div class="page-header">
+    <h1>我的收藏夹</h1>
+  </div>
+<% if @favorites.any? %>
+  <div class="favorites-list">
+    <% @favorites.each do |favorite| %>
+      <div class="favorite-item" style="<%= favorite.product.status == 'inactive' ? 'opacity: 0.5;' : '' %>">
+        <div class="product-image">
+          <% if favorite.product.status == 'inactive' %>
+            <%= image_tag favorite.product.image, class: "product-image-img", alt: "已下架", style: "filter: grayscale(100%);" %>
+          <% else %>
+            <%= link_to product_path(favorite.product) do %>
+              <%= image_tag favorite.product.image, class: "product-image-img" %>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="product-info">
+          <h3>
+            <% if favorite.product.status == 'inactive' %>
+              <span style="color: #999;">已下架</span>
+            <% else %>
+              <%= link_to favorite.product.name, product_path(favorite.product) %>
+            <% end %>
+          </h3>
+          <% if favorite.product.status == 'inactive' %>
+            <p style="color: #999;">该商品已下架，暂时无法购买。</p>
+          <% else %>
+            <p><strong>价格:</strong> ￥<%= favorite.product.price %></p>
+            <p><strong>描述:</strong> <%= truncate(favorite.product.description, length: 100) %></p>
+          <% end %>
+        </div>
+
+        <div class="actions">
+            <%= button_to favorite_path(favorite), 
+                method: :delete, 
+                remote: true, 
+                class: "btn btn-danger" do %>
+              移除收藏
+            <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="empty-cart">
+    <div class="cart-icon">
+      <svg viewBox="0 0 24 24" width="64" height="64">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#999"/>
+      </svg>
+    </div>
+    <h2>收藏夹是空的</h2>
+    <p>快去挑选心仪的商品吧！</p>
+    <%= link_to '去购物', products_path, class: 'shop-now-btn' %>
+  </div>
+<% end %>

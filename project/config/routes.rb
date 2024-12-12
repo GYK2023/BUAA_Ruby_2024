@@ -1,4 +1,33 @@
 Rails.application.routes.draw do
+  get "favorites/create"
+  get "favorites/destroy"
+  resources :products do
+    member do
+      patch :down
+      patch :up
+    end
+  end
+  # resources :products, only: [:index, :show]
+  resources :addresses, only: [:new, :create, :edit, :update, :destroy, :index] do
+    member do
+      get :details
+    end
+  end
+  resource :cart, only: [:show] do
+    post "checkout", to: "carts#checkout", as: :checkout
+  end
+  resources :cart_items, only: [:create, :destroy] do
+    patch :update_quantity, on: :member 
+  end
+  resources :orders, only: [:new, :create, :show, :index, :destroy] do
+    member do
+      get "payment"
+      patch :update_status
+    end
+  end
+  resources :favorites, only: [:index, :create, :destroy]
+  devise_for :users
+  # get "home/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -11,4 +40,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  root to: "home#index"
 end
