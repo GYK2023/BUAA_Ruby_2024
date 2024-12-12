@@ -58,7 +58,9 @@
       <% end %>
     <% else %>
       <% if current_user.is_admin?%>
-        <h2>暂无订单记录</h2>
+        <div class="empty-orders">
+          <h2>啊哦，暂无订单记录</h2>
+        </div>
       <% else %>
         <div class="empty-orders">
           <div class="orders-icon">
