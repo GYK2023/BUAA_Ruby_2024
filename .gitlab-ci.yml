@@ -1,0 +1,10 @@
+deploy-project:
+  stage: deploy
+  script:
+    - rsync -arv --delete  --exclude="*.sqlite3" ./project /
+    - cd /project
+    - bundle install
+    - rails db:migrate
+    - sv restart project
+  only:
+    - project

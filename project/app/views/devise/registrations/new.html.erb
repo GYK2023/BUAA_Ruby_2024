@@ -1,0 +1,299 @@
+<div class="login-page">
+  <div class="login-container">
+    <h2>创建账号</h2>
+    <p class="subtitle">请填写以下信息完成注册</p>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "login-form" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="form-group">
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <%= f.text_field :username, autofocus: true, class: "form-control", placeholder: "请输入用户名" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <%= f.email_field :email, class: "form-control", placeholder: "请输入邮箱" %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "请输入密码" %>
+        </div>
+        <% if @minimum_password_length %>
+          <span class="password-hint">密码至少需要 <%= @minimum_password_length %> 个字符</span>
+        <% end %>
+      </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "请确认密码" %>
+        </div>
+      </div>
+
+      <div class="form-group role-group">
+        <label class="role-label">选择身份:</label>
+        <div class="role-options">
+          <label class="role-option">
+            <%= f.radio_button :role, 'admin', class: "role-input" %>
+            <span class="role-card">
+              <i class="fas fa-user-shield role-icon"></i>
+              <span class="role-title">管理员</span>
+            </span>
+          </label>
+          <label class="role-option">
+            <%= f.radio_button :role, 'buyer', class: "role-input" %>
+            <span class="role-card">
+              <i class="fas fa-user role-icon"></i>
+              <span class="role-title">用户</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.submit "注册", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+
+    <div class="links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Open Sans', sans-serif;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px;
+  padding: 40px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #7f8c8d;
+  margin: 10px 0 30px;
+  font-size: 14px;
+}
+
+.login-form {
+  margin-top: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-group i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #95a5a6;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
+}
+
+.password-hint {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #95a5a6;
+  padding-left: 15px;
+}
+
+/* 身份选择样式 */
+.role-group {
+  margin: 30px 0;
+}
+
+.role-label {
+  display: block;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.role-options {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.role-option {
+  flex: 1;
+  cursor: pointer;
+}
+
+.role-input {
+  display: none;
+}
+
+.role-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.role-icon {
+  font-size: 24px;
+  color: #95a5a6;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.role-title {
+  font-size: 14px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.role-input:checked + .role-card {
+  border-color: #3498db;
+  background: rgba(52,152,219,0.05);
+}
+
+.role-input:checked + .role-card .role-icon {
+  color: #3498db;
+}
+
+.role-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2980b9, #2573a7);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(52,152,219,0.3);
+}
+
+.links {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.links a {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 14px;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: #2980b9;
+}
+
+#error_explanation {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: rgba(231,76,60,0.1);
+  border: 1px solid rgba(231,76,60,0.2);
+}
+
+#error_explanation h2 {
+  font-size: 16px;
+  color: #e74c3c;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+#error_explanation ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+#error_explanation li {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 30px 20px;
+    margin: 15px;
+  }
+  
+  .role-options {
+    flex-direction: column;
+  }
+  
+  .role-card {
+    padding: 15px;
+  }
+}
+</style>

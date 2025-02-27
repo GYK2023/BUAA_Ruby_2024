@@ -1,0 +1,265 @@
+<div class="container my-5">
+  <div class="form-header">
+    <h1>编辑地址</h1>
+    <div class="header-line"></div>
+  </div>
+
+  <%= form_with model: @address, local: true, class: "address-form" do |form| %>
+    <div class="form-card">
+      <div class="form-body">
+        <div class="input-group">
+          <div class="input-wrapper">
+            <%= form.text_field :name, class: "form-input", value: @address.name, required: true %>
+            <%= form.label :name, "姓名", class: "floating-label" %>
+            <div class="input-line"></div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-wrapper">
+            <%= form.text_field :phone_num, class: "form-input", value: @address.phone_num, required: true %>
+            <%= form.label :phone_num, "手机号码", class: "floating-label" %>
+            <div class="input-line"></div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <div class="input-wrapper">
+            <%= form.text_area :address, class: "form-input textarea", value: @address.address, required: true, rows: 4 %>
+            <%= form.label :address, "详细地址", class: "floating-label" %>
+            <div class="input-line"></div>
+          </div>
+        </div>
+
+        <div class="checkbox-group">
+          <label class="custom-checkbox">
+            <%= form.check_box :default, class: "checkbox-input", checked: @address.default %>
+            <span class="checkbox-mark"></span>
+            <span class="checkbox-label">设为默认地址</span>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <%= form.submit '更新地址', class: "submit-btn" %>
+          <%= link_to '返回地址列表', addresses_path, class: "back-btn" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<style>
+:root {
+  --primary-color: #3498db;
+  --text-color: #2c3e50;
+  --border-color: #e0e0e0;
+  --bg-color: #f5f6fa;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.form-header h1 {
+  color: var(--text-color);
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.header-line {
+  width: 60px;
+  height: 4px;
+  background: var(--primary-color);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.form-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.form-body {
+  padding: 3rem;
+}
+
+.input-group {
+  margin-bottom: 2rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 0;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 2px solid var(--border-color);
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+}
+
+.floating-label {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  color: #999;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.form-input:focus ~ .floating-label,
+.form-input:not(:placeholder-shown) ~ .floating-label {
+  top: -20px;
+  font-size: 0.85rem;
+  color: var(--primary-color);
+}
+
+.input-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.form-input:focus ~ .input-line {
+  width: 100%;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.checkbox-group {
+  margin: 2rem 0;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-input {
+  display: none;
+}
+
+.checkbox-mark {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  margin-right: 10px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.checkbox-input:checked + .checkbox-mark {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.checkbox-input:checked + .checkbox-mark::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-label {
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.submit-btn, .back-btn {
+  padding: 12px 32px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.submit-btn {
+  background: var(--primary-color);
+  color: white;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+.back-btn {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+.back-btn:hover {
+  background: #e9ecef;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .form-body {
+    padding: 1.5rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .submit-btn, .back-btn {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .form-header h1 {
+    font-size: 1.8rem;
+  }
+}
+</style>

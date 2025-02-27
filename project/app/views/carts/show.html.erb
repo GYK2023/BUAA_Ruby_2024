@@ -1,0 +1,388 @@
+<div class="container">
+  <div class="page-header">
+    <h1>我的购物车</h1>
+    <div class="header-line"></div>
+  </div>
+
+  <% if @cart_items.any? %>
+    <div class="cart-table">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>商品图片</th>
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>小计</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @cart_items.each do |item| %>
+            <tr class="cart-item">
+              <td class="product-image">
+                <% if item.product.image.attached? %>
+                  <%= image_tag item.product.image, class: "product-img" %>
+                <% else %>
+                  <img src="default-image.jpg" alt="No image" class="product-img">
+                <% end %>
+              </td>
+              <td class="product-name"><%= item.product.name %></td>
+              <td class="product-price">￥<%= item.product.price %></td>
+              <td>
+                <%= form_with url: update_quantity_cart_item_path(item), method: :patch, local: true do |f| %>
+                  <div class="input-group">
+                    <button type="submit" name="cart_item[quantity]" value="<%= item.quantity - 1 %>" class="btn btn-danger">-</button>
+                    <input type="text" class="form-control" value="<%= item.quantity %>" disabled />
+                    <button type="submit" name="cart_item[quantity]" value="<%= item.quantity + 1 %>" class="btn btn-success">+</button>
+                  </div>
+                <% end %>
+              </td>
+              <td class="product-subtotal">￥<%= item.quantity * item.product.price %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="cart-summary">
+        <div class="cart-summary-content">
+          <div class="total-amount">
+            总计: <span class="price">￥<%= @cart.total_price %></span>
+          </div>
+          <div class="checkout-button">
+            <%= link_to '结算', new_order_path, class: 'checkout-btn' %>
+          </div>
+        </div>
+      </div>
+  <% else %>
+    <div class="empty-cart">
+      <div class="cart-icon">
+        <svg viewBox="0 0 24 24" width="64" height="64">
+          <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" fill="#999"/>
+        </svg>
+      </div>
+      <h2>购物车是空的</h2>
+      <p>快去挑选心仪的商品吧！</p>
+      <%= link_to '去购物', products_path, class: 'shop-now-btn' %>
+    </div>
+  <% end %>
+</div>
+
+<style>
+
+.header-line {
+  width: 60px;
+  height: 4px;
+  background: #4a90e2;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+  .container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .cart-table {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .table th,
+  .table td {
+    padding: 1.5rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .table th {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+
+  .table th:nth-child(1),
+  .table td:nth-child(1) {
+    text-align: center;
+    width: 120px;
+  }
+
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    text-align: left;
+  }
+
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    text-align: center;
+    width: 120px;
+  }
+
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    text-align: center;
+    width: 150px;
+  }
+
+  .table th:nth-child(5),
+  .table td:nth-child(5) {
+    text-align: center;
+    width: 120px;
+  }
+
+  .product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  .product-name {
+    color: #1e293b;
+    font-weight: 500;
+  }
+
+  .product-price,
+  .product-subtotal {
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+  }
+
+  .btn-danger {
+    background-color: #fee2e2;
+    color: #ef4444;
+  }
+
+  .btn-success {
+    background-color: #dcfce7;
+    color: #22c55e;
+  }
+
+  .btn:hover {
+    opacity: 0.8;
+  }
+
+  .form-control {
+    width: 50px;
+    height: 32px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 0.9rem;
+    color: #1e293b;
+  }
+
+ .cart-summary {
+    padding: 1.5rem;
+    background-color: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .cart-summary-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2rem;
+  }
+
+  .total-amount {
+    font-size: 1.2rem;
+    color: #1e293b;
+    font-weight: 500;
+  }
+
+  .total-amount .price {
+    color: #ef4444;
+    font-weight: 600;
+    margin-left: 8px;
+    font-size: 1.4rem;
+  }
+
+  .checkout-btn {
+    display: inline-block;
+    padding: 0.875rem 2.5rem;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  }
+
+  .checkout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    text-decoration: none;
+  }
+
+  .checkout-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 10px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    .table th,
+    .table td {
+      padding: 1rem 0.5rem;
+    }
+
+    .table th:nth-child(1),
+    .table td:nth-child(1) {
+      width: 100px;
+    }
+
+    .product-img {
+      width: 60px;
+      height: 60px;
+    }
+
+    .btn {
+      width: 28px;
+      height: 28px;
+      font-size: 1rem;
+    }
+
+    .form-control {
+      width: 40px;
+      height: 28px;
+    }
+  }
+  .empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.cart-icon {
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.empty-cart h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.empty-cart p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.shop-now-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  background-color: #6c5ce7;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.shop-now-btn:hover {
+  background-color: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 480px) {
+  .empty-cart {
+    margin: 10px;
+    padding: 30px 15px;
+  }
+
+  .empty-cart h2 {
+    font-size: 20px;
+  }
+
+  .empty-cart p {
+    font-size: 14px;
+  }
+
+  .shop-now-btn {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+}
+</style>
